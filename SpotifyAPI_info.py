@@ -27,7 +27,9 @@ for song in chart_list[1:]:
     streams = song.find('td', class_='chart-table-streams')
     streams_number = streams.text
     # Make track_name the key for the top_200 dictionary with values artist_name, position_number, and streams_number
-    top_200[track_name] = (artist_name, position_number, streams_number)
+    top_200[track_name.strip()] = (artist_name.strip(), position_number.strip(), streams_number.strip())
+
+# Loop through songs in Billboard database and create dictionary of the Spotify songs that are also in this database
 
     
 
