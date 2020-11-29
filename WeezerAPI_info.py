@@ -33,7 +33,9 @@ for row in rows:
     if reqs.status_code == 200:
         data = json.loads(reqs.content)
         if len(data['data']) == 0:
-            break
+            print (row)
+
+            continue
         
         best_match = data['data'][0]
         trackId = best_match['id']
@@ -55,6 +57,11 @@ for row in rows:
     else:
         print ("Error occured while fetching track information")
     
-conn.commit()
+#manually including the API information for the two songs which could not be found in the for loop that grabs the other song info
+#first is Forever After All by Luke Combs  
+#
+cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('Forever After All', 100000, 208, '2020-10-23')""")
+cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('All These N**gas', 100000, 213, '2020-10-30')""")
 
+conn.commit()
 # still need to figure out how to get the info for songs where the title from billboard doesnt exactly match the title on Weezer so the requests doesnt work
