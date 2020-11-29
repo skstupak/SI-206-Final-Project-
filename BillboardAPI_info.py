@@ -19,7 +19,8 @@ for rank in c:
 dir = os.path.dirname(__file__) + os.sep
 conn = sqlite3.connect(dir + 'Billboard.db')
 cur = conn.cursor()
-cur.execute('''CREATE TABLE IF NOT EXISTS Billboard (title TEXT, artist TEXT, rank INTEGER)''')
+cur.execute('''DROP TABLE IF EXISTS Billboard''')
+cur.execute('''CREATE TABLE Billboard (title TEXT, artist TEXT, rank INTEGER)''')
 
 for i in range(len(title_lst)):
     cur.execute('INSERT INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (title_lst[i], artist_lst[i], rank_lst[i]))
