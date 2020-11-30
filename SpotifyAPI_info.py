@@ -2,6 +2,7 @@ import sqlite3
 import os
 import requests
 from bs4 import BeautifulSoup
+import billboard
 
 # the url to read from
 url = "https://spotifycharts.com/regional/global/daily/2020-11-21"
@@ -30,6 +31,23 @@ for song in chart_list[1:]:
     top_200[track_name.strip()] = (artist_name.strip(), position_number.strip(), streams_number.strip())
 
 # Loop through songs in Billboard database and create dictionary of the Spotify songs that are also in this database
+dir = os.path.dirname(__file__) + os.sep
+conn = sqlite3.connect(dir + 'Billboard.db')
+cur = conn.cursor()
+cur.execute('''SELECT title FROM Billboard''')
+titles = cur.fetchall()
+
+# Create a Spotify table
+cur.execute('''DROP TABLE IF EXISTS Spotify''')
+cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
+
+
+for title in titles:
+    title = title[0]
+    if title in top_200.keys():
+        cur.execute('INSERT INTO Spotify (title, artist, position, streams) VALUES (?, ?, ?, ?)', (title, top_200[title][0], top_200[title][1], top_200[title][2]))
+conn.commit()
+        
 
     
 
