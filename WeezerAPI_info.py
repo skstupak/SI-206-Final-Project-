@@ -8,60 +8,76 @@ import os
 import json
 import requests
 
-API_KEY = "apiKey"
+
+# getting cursor to be used for the rest of the code
+def getConnection(database):
+    dir = os.path.dirname(__file__) + os.sep
+    conn = sqlite3.connect(dir + database)
+    return conn
 
 # pull top 100 from billboard to get a list of teack names and artists names 
-dir = os.path.dirname(__file__) + os.sep
-conn = sqlite3.connect(dir + 'Billboard.db')
-cur = conn.cursor()
-cur.execute('''SELECT title, artist FROM Billboard''')
-rows = cur.fetchall()
+def getSongInfo(cur):
+    cur.execute('''SELECT title, artist FROM Billboard''')
+    rows = cur.fetchall()
+    return rows
 
 
 #creating a new table to write into and store the information we gather from the API
-cur.execute('''DROP TABLE IF EXISTS Weezer''')
-cur.execute('''CREATE TABLE Weezer (title TEXT, rank INTEGER, countries INTEGER, release TEXT)''')
+def makeTable(cur):
+    cur.execute('''DROP TABLE IF EXISTS Weezer''')
+    cur.execute('''CREATE TABLE Weezer (title TEXT, rank INTEGER, countries INTEGER, release TEXT)''')
+
+
 
 #each row returns a tuple of a song name and artist's name for that song
 #We will use each tuple to gather the information we need from Weezer API
-for row in rows:
-    print("SEARCHING: ", row)
-    #using this request to get the track id for a certain song so we can make a correct request (which requires the track id rather than the name)
-    url = "https://api.deezer.com/search?q=track:\"{}\" artists:\"{}\"".format(row[0], row[1])
-    reqs =  requests.get(url)
-    #makes sure the request worked if the status code is 200
-    if reqs.status_code == 200:
-        data = json.loads(reqs.content)
-        if len(data['data']) == 0:
-            print (row)
+def getRequest(cur):
+    rows = getSongInfo(cur)
+    for row in rows:
+        print("SEARCHING: ", row)
+        #using this request to get the track id for a certain song so we can make a correct request (which requires the track id rather than the name)
+        url = "https://api.deezer.com/search?q=track:\"{}\" artists:\"{}\"".format(row[0], row[1])
+        reqs =  requests.get(url)
+        #makes sure the request worked if the status code is 200
+        if reqs.status_code == 200:
+            data = json.loads(reqs.content)
+            if len(data['data']) == 0:
+                print (row)
 
-            continue
-        
-        best_match = data['data'][0]
-        trackId = best_match['id']
-        # now that I have the track id I will use it to make the correct request from the API to get the info I want
-        newUrl = "https://api.deezer.com/track/{}".format(trackId)
-        newReqs =  requests.get(newUrl)
-        
-        if newReqs.status_code == 200:
-            info = json.loads(newReqs.content)
+                continue
             
+            best_match = data['data'][0]
+            trackId = best_match['id']
+            # now that I have the track id I will use it to make the correct request from the API to get the info I want
+            newUrl = "https://api.deezer.com/track/{}".format(trackId)
+            newReqs =  requests.get(newUrl)
             
+            if newReqs.status_code == 200:
+                info = json.loads(newReqs.content)
+                
+                
 
-            if info == None:
-                pass
-            else:
-                cur.execute('INSERT INTO Weezer (title, rank, countries, release) VALUES (?, ?, ?, ?)'
-                , (info['title'], info['rank'], len(info['available_countries']), info['release_date']))
-            
-    else:
-        print ("Error occured while fetching track information")
+                if info == None:
+                    pass
+                else:
+                    cur.execute('INSERT INTO Weezer (title, rank, countries, release) VALUES (?, ?, ?, ?)'
+                    , (info['title'], info['rank'], len(info['available_countries']), info['release_date']))
+                
+        else:
+            print ("Error occured while fetching track information")
+        
+    #manually including the API information for the two songs which could not be found in the for loop that grabs the other song info
+    cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('Forever After All', 100000, 208, '2020-10-23')""")
+    cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('All These N**gas', 100000, 213, '2020-10-30')""")
+
+
+def main():
+    conn = getConnection('Billboard.db')
+    cur = conn.cursor()
+    makeTable(cur)
+    getSongInfo(cur)
+    conn.commit()
     
-#manually including the API information for the two songs which could not be found in the for loop that grabs the other song info
-#first is Forever After All by Luke Combs  
-#
-cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('Forever After All', 100000, 208, '2020-10-23')""")
-cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('All These N**gas', 100000, 213, '2020-10-30')""")
+if __name__ == "__main__":
+    main()
 
-conn.commit()
-# still need to figure out how to get the info for songs where the title from billboard doesnt exactly match the title on Weezer so the requests doesnt work
