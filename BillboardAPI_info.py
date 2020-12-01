@@ -37,7 +37,7 @@ for i in range(len(title_lst)):
         print('Retrieved 25 songs, restart to retrieve more')
         break 
     try:
-        cur.execute('INSERT INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (title_list[i], artist_list[i], rank_list[i]))
+        cur.execute('INSERT INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (title_lst[i], artist_lst[i], rank_lst[i]))
             #data = cur.fetchone()[0]
             #print('Found in database ', title)
             #continue
