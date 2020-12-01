@@ -16,12 +16,42 @@ for rank in c:
     artist_lst.append(a)
 
 
+
 dir = os.path.dirname(__file__) + os.sep
 conn = sqlite3.connect(dir + 'Billboard.db')
 cur = conn.cursor()
-cur.execute('''DROP TABLE IF EXISTS Billboard''')
-cur.execute('''CREATE TABLE Billboard (title TEXT, artist TEXT, rank INTEGER)''')
+#cur.execute('''DROP TABLE IF EXISTS Billboard''')
+cur.execute('''CREATE TABLE IF NOT EXISTS Billboard (title TEXT, artist TEXT, rank INTEGER)''')
 
+count = 0
 for i in range(len(title_lst)):
-    cur.execute('INSERT INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (title_lst[i], artist_lst[i], rank_lst[i]))
+    if count > 25:
+        print('Retrieved 25 songs, restart to retrieve more')
+        break 
+    try:
+        cur.execute('INSERT INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (title_lst[i], artist_lst[i], rank_lst[i]))
+        #data = cur.fetchone()[0]
+        #print('Found in database ', title)
+        #continue
+    except:
+        pass
+    count += 1
+
+
+
+#cur.execute('SELECT title FROM Billboard')
+#lst = cur.fetchall()
+#s = 0
+#count = len(title_lst)
+#new_list = []
+#for i in title_lst:
+#for s in range(25):
+    #name = title_lst[s]
+    #new_list.append(name)
+    #creator = artist_lst[s]
+    #number = rank_lst[s]
+    #s += 1
+    #if name not in new_list:
+        #cur.execute('INSERT OR IGNORE INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (name, creator, number))
+#print(new_list)
 conn.commit()
