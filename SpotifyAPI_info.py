@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import billboard
 
 # the url to read from
-url = "https://spotifycharts.com/regional/us/daily/2020-11-21"
+url = "https://spotifycharts.com/regional/us/daily/2020-04-05"
 def GetSoupObject(url):
     resp = requests.get(url)
     soup = BeautifulSoup(resp.content, 'html.parser')
