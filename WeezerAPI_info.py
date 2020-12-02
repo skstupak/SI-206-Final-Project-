@@ -65,10 +65,6 @@ def getRequest(cur):
                 
         else:
             print ("Error occured while fetching track information")
-        
-    #manually including the API information for the two songs which could not be found in the for loop that grabs the other song info
-    cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('Forever After All', 100000, 208, '2020-10-23')""")
-    cur.execute("""INSERT INTO Weezer (title, rank, countries, release) VALUES ('All These N**gas', 100000, 213, '2020-10-30')""")
 
 
 def main():
