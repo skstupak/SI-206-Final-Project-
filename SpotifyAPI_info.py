@@ -72,10 +72,6 @@ titles = cur.fetchall()
 cur.execute('''DROP TABLE IF EXISTS Spotify''')
 cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
 
-cur.execute("""INSERT INTO Spotify (title, artist, position, streams) VALUES ('pov', 'Ariana Grande', 34, 2046473)""")
-cur.execute("""INSERT INTO Spotify (title, artist, position, streams) VALUES ('ily', 'Surf Mesa', 135, 927563)""")
-cur.execute("""INSERT INTO Spotify (title, artist, position, streams) VALUES ('WAP', 'Cardi B', 8, 864973)""")
-cur.execute("""INSERT INTO Spotify (title, artist, position, streams) VALUES ('Savage Love', 'Jawsh 685, Jason Derulo', 147, 267632)""")
 
 for title in titles:
     title = title[0]
