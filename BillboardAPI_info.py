@@ -29,23 +29,17 @@ def create_database():
         artist_lst.append(a)
     cur, conn = db_setup('Billboard.db')
     cur.execute('''CREATE TABLE IF NOT EXISTS Billboard (title TEXT, artist TEXT, rank INTEGER)''')
-    count = 0 
-    #t = []
-    #for l in billboard_lists():
-        #t.append(l[0])
+    count = 0
     for i in range(len(title_lst)):
-        if count > 25:
-            print('Retrieved 25 songs, restart to retrieve more')
-            break 
-        try:
+        if count > 24:
+            break
+        if cur.execute('SELECT title FROM Billboard WHERE title = ? AND artist = ? AND rank = ?', (title_lst[i], artist_lst[i], rank_lst[i])).fetchone() == None:
             cur.execute('INSERT INTO Billboard (title, artist, rank) VALUES (?, ?, ?)', (title_lst[i], artist_lst[i], rank_lst[i]))
-            #data = cur.fetchone()[0]
-            #print('Found in database ', title)
-            #continue
-        except:
-            pass
-        count += 1
+            count += 1
+
     conn.commit()
+
+
 
 def main():
     create_database()
