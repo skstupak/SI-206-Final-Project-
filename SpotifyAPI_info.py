@@ -78,6 +78,12 @@ for title in titles:
     if title in spotify_dict.keys():
         cur.execute('INSERT INTO Spotify (title, artist, position, streams) VALUES (?, ?, ?, ?)', (title, spotify_dict[title][0], spotify_dict[title][1], spotify_dict[title][2]))
 conn.commit()
+
+def join_tables(cur, conn):
+    cur.execute("SELECT Billboard.title, Spotify.title, Weezer.title FROM Billboard JOIN Spotify ON Billboard.title = Spotify.title JOIN Weezer ON Spotify.title = Weezer.title")
+    t = cur.fetchall()
+    return t 
+
         
 
     
