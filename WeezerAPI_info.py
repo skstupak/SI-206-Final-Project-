@@ -34,7 +34,7 @@ def makeTable(cur):
 def getRequest(cur):
     rows = getSongInfo(cur)
     for row in rows:
-        print("SEARCHING: ", row)
+        #print("SEARCHING: ", row)
         #using this request to get the track id for a certain song so we can make a correct request (which requires the track id rather than the name)
         url = "https://api.deezer.com/search?q=track:\"{}\" artists:\"{}\"".format(row[0], row[1])
         reqs =  requests.get(url)
@@ -76,6 +76,7 @@ def main():
     cur = conn.cursor()
     makeTable(cur)
     getSongInfo(cur)
+    getRequest(cur)
     conn.commit()
     
 if __name__ == "__main__":
