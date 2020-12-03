@@ -68,6 +68,7 @@ cur = conn.cursor()
 cur.execute('''SELECT title FROM Billboard''')
 titles = cur.fetchall()
 
+
 # Create a Spotify table
 cur.execute('''DROP TABLE IF EXISTS Spotify''')
 cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
@@ -84,6 +85,23 @@ def join_tables(cur, conn):
     cur.execute("SELECT Billboard.title, Spotify.title, Weezer.title FROM Billboard JOIN Spotify ON Billboard.title = Spotify.title JOIN Weezer ON Spotify.title = Weezer.title")
     t = cur.fetchall()
     return t 
+
+
+lst_week = []
+lst_position = []
+for title in titles:
+    title = title[0]
+    if title in spotify_dict.keys():
+        cur.execute('SELECT position FROM Spotify')
+        p = cur.fetchall()
+        cur.execute('SELECT weeks FROM Billboard')
+        w = cur.fetchall()
+        lst_week.append(w)
+        lst_position.append(p)
+print(lst_week)
+print(lst_position)
+
+
 
 
 
