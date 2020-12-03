@@ -68,6 +68,7 @@ cur = conn.cursor()
 cur.execute('''SELECT title FROM Billboard''')
 titles = cur.fetchall()
 
+
 # Create a Spotify table
 cur.execute('''DROP TABLE IF EXISTS Spotify''')
 cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
@@ -86,8 +87,34 @@ def join_tables(cur, conn):
     return t 
 
 
+d = {}
+cur.execute('SELECT position FROM Spotify')
+p = cur.fetchall()
+cur.execute('SELECT streams FROM Spotify')
+s = cur.fetchall()
+cur.execute('SELECT title FROM Billboard')
+t = cur.fetchall()
+for i in range(len(p)):
+        if p[i][0] != 0:
+            y = ""
+            for j in range(0, len(s[i][0])):
+                if s[i][0][j] != ',':
+                    y += s[i][0][j]
+            avg_pop = int(y)/p[i][0]
+            d[t[i][0]] = avg_pop
+
+sorted_d = sorted(d.items(), key = lambda a: a[1], reverse = True)
+print(sorted_d)
+final = []
+for tup in sorted_d:
+    final.append(tup[0])
+print(final)
+
+# define what popularity means 
 
 
+
+# popularity is diff for each one so explain each one that Spotify gave us 
 
     
 
