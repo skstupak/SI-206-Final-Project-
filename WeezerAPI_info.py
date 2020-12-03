@@ -66,6 +66,18 @@ def getRequest(cur):
         else:
             print ("Error occured while fetching track information")
 
+def calculating_popularity(cur):
+    cur.execute('SELECT rank FROM Weezer')
+    r = cur.fetchall()
+    cur.execute('SELECT weeks FROM Billboard')
+    w = cur.fetchall()
+    lst = []
+    for i in r:
+        for x in w:
+            avg_pop = x[0]/i[0]
+            lst.append(avg_pop)
+    print(lst)
+    return lst
 
 def main():
     conn = getConnection('Billboard.db')
@@ -73,6 +85,7 @@ def main():
     makeTable(cur)
     getSongInfo(cur)
     getRequest(cur)
+    calculating_popularity(cur)
     conn.commit()
     
 if __name__ == "__main__":
