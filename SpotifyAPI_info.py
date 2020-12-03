@@ -73,12 +73,15 @@ cur.execute('''DROP TABLE IF EXISTS Spotify''')
 cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
 
 
+
 for title in titles:
     title = title[0]
     if title in spotify_dict.keys():
         cur.execute('INSERT INTO Spotify (title, artist, position, streams) VALUES (?, ?, ?, ?)', (title, spotify_dict[title][0], spotify_dict[title][1], spotify_dict[title][2]))
 conn.commit()
-        
+
+
+
 
     
 
