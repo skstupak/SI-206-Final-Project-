@@ -11,7 +11,7 @@ def db_setup(db_name):
     return cur, conn
 
 def get_data():
-    c = billboard.ChartData('hot-100', date = '2020-04-05', year = None, fetch = True, timeout = 25)
+    c = billboard.ChartData('hot-100', date = '2020-12-01', year = None, fetch = True, timeout = 25)
     return c
 
 def create_database():
