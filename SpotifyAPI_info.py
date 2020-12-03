@@ -87,25 +87,34 @@ def join_tables(cur, conn):
     return t 
 
 
-lst_week = []
-lst_position = []
-for title in titles:
-    title = title[0]
-    if title in spotify_dict.keys():
-        cur.execute('SELECT position FROM Spotify')
-        p = cur.fetchall()
-        cur.execute('SELECT weeks FROM Billboard')
-        w = cur.fetchall()
-        lst_week.append(w)
-        lst_position.append(p)
-print(lst_week)
-print(lst_position)
+d = {}
+cur.execute('SELECT position FROM Spotify')
+p = cur.fetchall()
+cur.execute('SELECT streams FROM Spotify')
+s = cur.fetchall()
+cur.execute('SELECT title FROM Billboard')
+t = cur.fetchall()
+for i in range(len(p)):
+        if p[i][0] != 0:
+            y = ""
+            for j in range(0, len(s[i][0])):
+                if s[i][0][j] != ',':
+                    y += s[i][0][j]
+            avg_pop = int(y)/p[i][0]
+            d[t[i][0]] = avg_pop
+
+sorted_d = sorted(d.items(), key = lambda a: a[1], reverse = True)
+print(sorted_d)
+final = []
+for tup in sorted_d:
+    final.append(tup[0])
+print(final)
+
+# define what popularity means 
 
 
 
-
-
-
+# popularity is diff for each one so explain each one that Spotify gave us 
 
     
 
