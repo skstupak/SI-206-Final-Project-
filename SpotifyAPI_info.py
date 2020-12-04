@@ -154,7 +154,7 @@ for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Ariana Grand
     streams = int(y)
     ArianaGrandestream += streams
 
-l = ['BTS', 'Drake', 'Kane Brown', 'Lewis Capaldi', 'Ariana Grande']
+l = ['BTS (Asian Music)', 'Drake (Rap/ Hip Hop)', 'Kane Brown (Country)', 'Lewis Capaldi (Alternative)', 'Ariana Grande (Pop)']
 y_axis = [BTSstream, Drakestream, KaneBrownstream, LewisCapaldistream, ArianaGrandestream]
 color = ['red', 'blue', 'green', 'yellow', 'purple']
 p = go.Pie(labels = l, values = y_axis, title = "Number of Streams for Popular Artists in the Top Five Genres", 
