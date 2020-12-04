@@ -25,9 +25,12 @@ def getSongInfo(cur):
 #creating a new table to write into and store the information we gather from the API
 def makeTable(cur):
     cur.execute('''DROP TABLE IF EXISTS Weezer''')
-    cur.execute('''CREATE TABLE Weezer (title TEXT, rank INTEGER, countries INTEGER, release TEXT)''')
+    cur.execute('''CREATE TABLE Weezer (title TEXT PRIMARY KEY, rank INTEGER, countries INTEGER, release TEXT)''')
 
-
+def join_tables(cur, conn):
+    cur.execute("SELECT Weezer.title FROM Weezer JOIN Deezer ON Weezer.title = Deezer.title")
+    t = cur.fetchall()
+    return t 
 
 #each row returns a tuple of a song name and artist's name for that song
 #We will use each tuple to gather the information we need from Weezer API
@@ -93,7 +96,9 @@ def main():
     getSongInfo(cur)
     getRequest(cur)
     calculating_popularity(cur)
+    join_tables(cur, conn)
     conn.commit()
+    
     
 if __name__ == "__main__":
     main()
