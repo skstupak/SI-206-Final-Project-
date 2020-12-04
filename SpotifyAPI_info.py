@@ -62,6 +62,7 @@ def ScrapeSpotify(soup):
     return top_200
 
 spotify_dict = ScrapeSpotify(soup)
+print(spotify_dict.keys())
 
 # Loop through songs in Billboard database and create dictionary of the Spotify songs that are also in this database
 dir = os.path.dirname(__file__) + os.sep
@@ -74,7 +75,6 @@ titles = cur.fetchall()
 # Create a Spotify table
 cur.execute('''DROP TABLE IF EXISTS Spotify''')
 cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
-
 
 
 for title in titles:
