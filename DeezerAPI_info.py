@@ -67,7 +67,7 @@ def getRequest(cur):
         
         genreList = ",".join([g['name'] for g in genre['genres']['data']])                
         if len(genreList) == 0:
-            genreList == None    
+            genreList = 'Holiday'    
 
         if genre == None:
             pass
