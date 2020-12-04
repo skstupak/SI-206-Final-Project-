@@ -1,6 +1,8 @@
 import sqlite3
 import os
 import requests
+import chart_studio.plotly as py
+import plotly.graph_objects as go
 from bs4 import BeautifulSoup
 import billboard
 
@@ -87,35 +89,76 @@ def join_tables(cur, conn):
     return t 
 
 
+
+
+
+#calculations to txt file
+fo = open('calculations.txt', 'w')
+conn = sqlite3.connect('Billboard.db')
+cur = conn.cursor()
 d = {}
-cur.execute('SELECT position FROM Spotify')
+cur.execute('SELECT title FROM Billboard')
+t = cur.fetchall()
+cur.execute("SELECT position FROM Spotify")
 p = cur.fetchall()
 cur.execute('SELECT streams FROM Spotify')
 s = cur.fetchall()
-cur.execute('SELECT title FROM Billboard')
-t = cur.fetchall()
+cur.execute('SELECT genres FROM Deezer')
+g = cur.fetchall()
+fo.write("The calculation shows the song title with the highest average popularity and it's genre" + '\n')
 for i in range(len(p)):
-        if p[i][0] != 0:
-            y = ""
-            for j in range(0, len(s[i][0])):
-                if s[i][0][j] != ',':
-                    y += s[i][0][j]
-            avg_pop = int(y)/p[i][0]
-            d[t[i][0]] = avg_pop
+    if p[i][0] != 0:
+        y = ""
+        for j in range(0, len(s[i][0])):
+            if s[i][0][j] != ',':
+                y += s[i][0][j]
+        avg_pop = int(y)/p[i][0]
+        d[t[i][0]] = (avg_pop, g[i][0])
 
-sorted_d = sorted(d.items(), key = lambda a: a[1], reverse = True)
+sorted_d = sorted(d.items(), key = lambda a: a[1][0], reverse = True)
 print(sorted_d)
-final = []
 for tup in sorted_d:
-    final.append(tup[0])
-print(final)
-
-# define what popularity means 
+    print(tup)
+    fo.write(tup[0] + ': ' + str(tup[1][0]) + ', ' + tup[1][1] + '\n')
 
 
+#visualization 1
 
-# popularity is diff for each one so explain each one that Spotify gave us 
+BTSstream = 0
+Drakestream = 0
+KaneBrownstream = 0
+LewisCapaldistream = 0
+ArianaGrandestream = 0
+for i in cur.execute("SELECT streams FROM Spotify WHERE artist = 'BTS'"):
+    y = i[0].replace(',', '')
+    streams = int(y)
+    BTSstream += streams
 
-    
+for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Drake'"""):
+    y = i[0].replace(',', '')
+    streams = int(y)
+    Drakestream += streams
 
+for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Kane Brown'"""):
+    y = i[0].replace(',', '')
+    streams = int(y)
+    KaneBrownstream += streams
 
+for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Lewis Capaldi'"""):
+    y = i[0].replace(',', '')
+    streams = int(y)
+    LewisCapaldistream += streams
+
+for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Ariana Grande'"""):
+    y = i[0].replace(',', '')
+    streams = int(y)
+    ArianaGrandestream += streams
+
+l = ['BTS', 'Drake', 'Kane Brown', 'Lewis Capaldi', 'Ariana Grande']
+y_axis = [BTSstream, Drakestream, KaneBrownstream, LewisCapaldistream, ArianaGrandestream]
+color = ['red', 'blue', 'green', 'yellow', 'purple']
+p = go.Pie(labels = l, values = y_axis, title = "Number of Streams for Popular Artists in the Top Five Genres", 
+            hoverinfo = 'label + value', textfont_size = 20, marker = dict(colors = color))
+fig = go.Figure(p)
+fig.show()
+py.iplot([p], filename = 'streams_pop_genre', auto_open = True)
