@@ -6,6 +6,7 @@ import json
 import chart_studio.plotly as py
 import plotly.graph_objects as go
 
+
 def db_setup(db_name):
     dir = os.path.dirname(__file__) + os.sep
     conn = sqlite3.connect(dir + 'Billboard.db')
@@ -52,6 +53,8 @@ hoverinfo = "label + value", textfont_size = 20, marker = dict(colors = color2))
 fig = go.Figure(p2)
 fig.show()
 py.iplot([p2], filename = 'average_popularity_songs', auto_open = True)
+
+
 
 
 def main():
