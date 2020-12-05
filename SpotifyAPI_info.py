@@ -5,6 +5,8 @@ import chart_studio.plotly as py
 import plotly.graph_objects as go
 from bs4 import BeautifulSoup
 import billboard
+import matplotlib
+import matplotlib.pyplot as plt
 
 # the url to read from
 url = "https://spotifycharts.com/regional/us/daily/2020-12-01"
@@ -62,7 +64,6 @@ def ScrapeSpotify(soup):
     return top_200
 
 spotify_dict = ScrapeSpotify(soup)
-print(spotify_dict.keys())
 
 # Loop through songs in Billboard database and create dictionary of the Spotify songs that are also in this database
 dir = os.path.dirname(__file__) + os.sep
@@ -162,3 +163,16 @@ p = go.Pie(labels = l, values = y_axis, title = "Number of Streams for Popular A
 fig = go.Figure(p)
 fig.show()
 py.iplot([p], filename = 'streams_pop_genre', auto_open = True)
+
+#visualization 2
+
+# Data for line graph
+songs = ["Life Goes On", "Mood", "Dynamite", "Positions"]
+average_popularity = [6607.606557377049, 59825.5, 9779.826086956522, 248939.0] 
+
+plt.scatter(songs, average_popularity)
+plt.suptitle('Average Popularity for Top Four Songs on Billboard')
+
+plt.show()
+
+
