@@ -3,6 +3,8 @@ import billboard
 import sqlite3
 import os 
 import json
+import chart_studio.plotly as py
+import plotly.graph_objects as go
 
 def db_setup(db_name):
     dir = os.path.dirname(__file__) + os.sep
@@ -41,6 +43,15 @@ def create_database():
 
     conn.commit()
 
+    # Data for pie chart #2
+songs = ["Life Goes On", "Mood", "Dynamite", "Positions"]
+average_popularity = [6607.606557377049, 59825.5, 9779.826086956522, 248939.0] 
+color2 = ['green', 'yellow', 'blue', 'pink']
+p2 = go.Pie(labels = songs, values = average_popularity, title = "Percent of Average Popularity for Top Four Songs on Billboard",
+hoverinfo = "label + value", textfont_size = 20, marker = dict(colors = color2))
+fig = go.Figure(p2)
+fig.show()
+py.iplot([p2], filename = 'average_popularity_songs', auto_open = True)
 
 
 def main():
