@@ -166,13 +166,6 @@ py.iplot([p], filename = 'streams_pop_genre', auto_open = True)
 
 #visualization 2
 
-# Data for line graph
-songs = ["Life Goes On", "Mood", "Dynamite", "Positions"]
-average_popularity = [6607.606557377049, 59825.5, 9779.826086956522, 248939.0] 
 
-plt.scatter(songs, average_popularity)
-plt.suptitle('Average Popularity for Top Four Songs on Billboard')
-
-plt.show()
 
 
