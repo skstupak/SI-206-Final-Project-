@@ -87,6 +87,7 @@ conn.commit()
 def join_tables(cur, conn):
     cur.execute("SELECT Billboard.title, Spotify.title, Weezer.title FROM Billboard JOIN Spotify ON Billboard.title = Spotify.title JOIN Weezer ON Spotify.title = Weezer.title")
     t = cur.fetchall()
+    conn.commit()
     return t 
 
 
