@@ -78,33 +78,6 @@ def getRequest(cur):
             cur.execute('INSERT INTO Deezer (title, genres) VALUES (?, ?)'
             , (best_match['title'], genreList))
 
-
-
-def createBarChart():
-    # data to plot
-    n_groups = 4
-    availCountries = (210, 189, 210, 208)
-    
-
-    # create plot
-    fig, ax = plt.subplots()
-    index = np.arange(n_groups)
-    bar_width = 0.25
-    opacity = 0.75
-
-    rects1 = plt.bar(index, availCountries, bar_width,
-    alpha=opacity,
-    color='b',
-    label='Num Countries')
-
-    plt.ylabel('Number of Countries')
-    plt.xlabel('Track Title')
-    plt.title('Number of countries where the most popular tracks on Billboard are available')
-    plt.xticks(index + bar_width, ('Life Goes On', 'Mood', 'Dynamite', 'Positions'))
-    plt.legend()
-
-    plt.tight_layout()
-    plt.show()
                 
 
 def main():
@@ -114,7 +87,6 @@ def main():
     getSongInfo(cur)
     getRequest(cur)
     conn.commit()
-    createBarChart()
     
 if __name__ == "__main__":
     main()
