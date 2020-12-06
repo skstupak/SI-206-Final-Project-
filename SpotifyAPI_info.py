@@ -125,44 +125,44 @@ for tup in sorted_d:
 
 #visualization 1
 
-BTSstream = 0
-Drakestream = 0
-KaneBrownstream = 0
-LewisCapaldistream = 0
-ArianaGrandestream = 0
-for i in cur.execute("SELECT streams FROM Spotify WHERE artist = 'BTS'"):
-    y = i[0].replace(',', '')
-    streams = int(y)
-    BTSstream += streams
+# BTSstream = 0
+# Drakestream = 0
+# KaneBrownstream = 0
+# LewisCapaldistream = 0
+# ArianaGrandestream = 0
+# for i in cur.execute("SELECT streams FROM Spotify WHERE artist = 'BTS'"):
+#     y = i[0].replace(',', '')
+#     streams = int(y)
+#     BTSstream += streams
 
-for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Drake'"""):
-    y = i[0].replace(',', '')
-    streams = int(y)
-    Drakestream += streams
+# for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Drake'"""):
+#     y = i[0].replace(',', '')
+#     streams = int(y)
+#     Drakestream += streams
 
-for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Kane Brown'"""):
-    y = i[0].replace(',', '')
-    streams = int(y)
-    KaneBrownstream += streams
+# for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Kane Brown'"""):
+#     y = i[0].replace(',', '')
+#     streams = int(y)
+#     KaneBrownstream += streams
 
-for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Lewis Capaldi'"""):
-    y = i[0].replace(',', '')
-    streams = int(y)
-    LewisCapaldistream += streams
+# for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Lewis Capaldi'"""):
+#     y = i[0].replace(',', '')
+#     streams = int(y)
+#     LewisCapaldistream += streams
 
-for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Ariana Grande'"""):
-    y = i[0].replace(',', '')
-    streams = int(y)
-    ArianaGrandestream += streams
+# for i in cur.execute("""SELECT streams FROM Spotify WHERE artist = 'Ariana Grande'"""):
+#     y = i[0].replace(',', '')
+#     streams = int(y)
+#     ArianaGrandestream += streams
 
-l = ['BTS (Asian Music)', 'Drake (Rap/ Hip Hop)', 'Kane Brown (Country)', 'Lewis Capaldi (Alternative)', 'Ariana Grande (Pop)']
-y_axis = [BTSstream, Drakestream, KaneBrownstream, LewisCapaldistream, ArianaGrandestream]
-color = ['red', 'blue', 'green', 'yellow', 'purple']
-p = go.Pie(labels = l, values = y_axis, title = "Number of Streams for Popular Artists in the Top Five Genres", 
-            hoverinfo = 'label + value', textfont_size = 20, marker = dict(colors = color))
-fig = go.Figure(p)
-fig.show()
-py.iplot([p], filename = 'streams_pop_genre', auto_open = True)
+# l = ['BTS (Asian Music)', 'Drake (Rap/ Hip Hop)', 'Kane Brown (Country)', 'Lewis Capaldi (Alternative)', 'Ariana Grande (Pop)']
+# y_axis = [BTSstream, Drakestream, KaneBrownstream, LewisCapaldistream, ArianaGrandestream]
+# color = ['red', 'blue', 'green', 'yellow', 'purple']
+# p = go.Pie(labels = l, values = y_axis, title = "Number of Streams for Popular Artists in the Top Five Genres", 
+#             hoverinfo = 'label + value', textfont_size = 20, marker = dict(colors = color))
+# fig = go.Figure(p)
+# fig.show()
+# py.iplot([p], filename = 'streams_pop_genre', auto_open = True)
 
 #visualization 2
 
