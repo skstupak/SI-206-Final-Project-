@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import chart_studio.plotly as py
 import plotly.graph_objects as go
+from  plotly.offline import plot
 
 dir = os.path.dirname(__file__) + os.sep
 conn = sqlite3.connect(dir + 'Billboard.db')
