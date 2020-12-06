@@ -53,19 +53,20 @@ def createPieChart1(cur):
 
 def createBarChart():
     # data to plot
-    numSongs = 4
-    availCountries = (210, 189, 210, 208)
+    numSongs = 8
+    availCountries = (210, 189, 210, 208, 208, 208, 208, 208)
 
     # create plot
     index = np.arange(numSongs)
-    bar_width = 0.25
+    bar_width = 0.3
+    font_size = 5
     opacity = 0.75
 
-    plt.bar(index, availCountries, bar_width, alpha=opacity, color='b', label='Num Countries')
+    plt.bar(index, availCountries, bar_width, font_size, alpha=opacity, color='b', label='Num Countries')
     plt.ylabel('Number of Countries')
     plt.xlabel('Track Title')
     plt.title('Number of countries where the most popular tracks on Billboard are available')
-    plt.xticks(index, ('Life Goes On', 'Mood', 'Dynamite', 'Positions'))
+    plt.xticks(index, ('Life Goes On', 'Mood', 'Dynamite', 'Positions', 'I Hope', 'Holy', 'Laugh Now Cry Later', 'Monster'))
     #plt.legend() this shows was each bar color means
     #plt.tight_layout()
     plt.show()
@@ -81,8 +82,8 @@ def makePieChart():
     py.iplot([p2], filename = 'average_popularity_songs', auto_open = True)
 
 def main(cur, conn):
-    createPieChart1(cur)
     createBarChart()
+    createPieChart1(cur)
     makePieChart()
     conn.commit()
     
