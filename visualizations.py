@@ -71,11 +71,11 @@ def createBarChart():
     #plt.tight_layout()
     plt.show()
 
-def makePieChart():
+def makeBarGraph2():
     songs = ["Life Goes On", "Mood", "Dynamite", "Positions"]
     average_popularity = [6607.606557377049, 59825.5, 9779.826086956522, 248939.0] 
     index = np.arange(4)
-    bar_width = 0.3
+    bar_width = 0.5
     font_size = 5
     opacity = 0.75
     color2 = ['green', 'yellow', 'blue', 'pink']
@@ -85,15 +85,10 @@ def makePieChart():
     plt.title('Average Popularity for Top Four Songs on Billboard')
     plt.xticks(index, ("Life Goes On", "Mood", "Dynamite", "Positions"))
     plt.show()
-    #p2 = go.Pie(labels = songs, values = average_popularity, title = "Percent of Average Popularity for Top Four Songs on Billboard",
-    #hoverinfo = "label + value", textfont_size = 20, marker = dict(colors = color2))
-    #fig = go.Figure(p2)
-    #fig.show()
-    #py.iplot([p2], filename = 'average_popularity_songs', auto_open = True)
 
 def main(cur, conn):
     createBarChart()
-    makePieChart()
+    makeBarGraph2()
     createPieChart1(cur)
     conn.commit()
     
