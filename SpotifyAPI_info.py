@@ -65,6 +65,17 @@ def ScrapeSpotify(soup):
 
 spotify_dict = ScrapeSpotify(soup)
 
+# Create a Spotify Top 200 table
+dir = os.path.dirname(__file__) + os.sep
+conn = sqlite3.connect(dir + 'Billboard.db')
+cur = conn.cursor()
+cur.execute('''DROP TABLE IF EXISTS SpotifyTop200''')
+cur.execute('''CREATE TABLE SpotifyTop200 (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
+
+for song in spotify_dict:
+    cur.execute('INSERT INTO SpotifyTop200 (title, artist, position, streams) VALUES (?, ?, ?, ?)', (song, spotify_dict[song][0], spotify_dict[song][1], spotify_dict[song][2]))
+conn.commit()
+
 # Loop through songs in Billboard database and create dictionary of the Spotify songs that are also in this database
 dir = os.path.dirname(__file__) + os.sep
 conn = sqlite3.connect(dir + 'Billboard.db')
@@ -77,12 +88,13 @@ titles = cur.fetchall()
 cur.execute('''DROP TABLE IF EXISTS Spotify''')
 cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
 
-
 for title in titles:
     title = title[0]
     if title in spotify_dict.keys():
         cur.execute('INSERT INTO Spotify (title, artist, position, streams) VALUES (?, ?, ?, ?)', (title, spotify_dict[title][0], spotify_dict[title][1], spotify_dict[title][2]))
 conn.commit()
+
+
 
 def join_tables(cur, conn):
     cur.execute("SELECT Billboard.title, Spotify.title, Weezer.title FROM Billboard JOIN Spotify ON Billboard.title = Spotify.title JOIN Weezer ON Spotify.title = Weezer.title")
