@@ -97,8 +97,7 @@ titles = cur.fetchall()
 
 
 # Create a Spotify table
-cur.execute('''DROP TABLE IF EXISTS Spotify''')
-cur.execute('''CREATE TABLE Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
+cur.execute('''CREATE TABLE IF NOT EXISTS Spotify (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
 
 for title in titles:
     title = title[0]
