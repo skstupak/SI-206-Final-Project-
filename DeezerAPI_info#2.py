@@ -45,8 +45,6 @@ def getRequest(cur):
         if reqs.status_code == 200:
             data = json.loads(reqs.content)
             if len(data['data']) == 0:
-                print (row)
-
                 continue
             
             best_match = data['data'][0]
@@ -82,11 +80,9 @@ def calculating_popularity(cur):
             avg_pop = r[i][0]/w[i][0]
             d[t[i][0]] = avg_pop
     sorted_d = sorted(d.items(), key = lambda a: a[1], reverse = True)
-    print(sorted_d)
     final = []
     for tup in sorted_d:
         final.append(tup[0])
-    print(final)
     return final
 
 def main():
