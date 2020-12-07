@@ -67,8 +67,6 @@ def createBarChart():
     plt.xlabel('Track Title')
     plt.title('Number of countries where the most popular tracks on Billboard are available')
     plt.xticks(index, ('Life Goes On', 'Mood', 'Dynamite', 'Positions', 'I Hope', 'Holy', 'Laugh Now Cry Later', 'Monster'))
-    #plt.legend() this shows was each bar color means
-    #plt.tight_layout()
     plt.show()
 
 def makeBarGraph2():
