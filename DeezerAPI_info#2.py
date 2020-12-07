@@ -24,8 +24,7 @@ def getSongInfo(cur):
 
 #creating a new table to write into and store the information we gather from the API
 def makeTable(cur):
-    cur.execute('''DROP TABLE IF EXISTS Weezer''')
-    cur.execute('''CREATE TABLE Weezer (title TEXT PRIMARY KEY, rank INTEGER, countries INTEGER, release TEXT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS Weezer (title TEXT PRIMARY KEY, rank INTEGER, countries INTEGER, release TEXT)''')
 
 def join_tables(cur, conn):
     cur.execute("SELECT Weezer.title FROM Weezer JOIN Deezer ON Weezer.title = Deezer.title")
