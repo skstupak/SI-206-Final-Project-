@@ -130,9 +130,7 @@ for i in range(len(p)):
         d[t[i][0]] = (avg_pop, g[i][0])
 
 sorted_d = sorted(d.items(), key = lambda a: a[1][0], reverse = True)
-print(sorted_d)
 for tup in sorted_d:
-    print(tup)
     fo.write(tup[0] + ': ' + str(tup[1][0]) + ', ' + tup[1][1] + '\n')
 
 
