@@ -65,29 +65,6 @@ def ScrapeSpotify(soup):
 
 spotify_dict = ScrapeSpotify(soup)
 
-# Create a Spotify Top 200 table
-dir = os.path.dirname(__file__) + os.sep
-conn = sqlite3.connect(dir + 'Billboard.db')
-cur = conn.cursor()
-cur.execute('''CREATE TABLE IF NOT EXISTS SpotifyTop200 (title TEXT, artist TEXT, position INTEGER, streams INTEGER)''')
-count = 0
-song_title = []
-artist_lst = []
-p_list = []
-streams_lst = []
-for song in spotify_dict:
-    song_title.append(song)
-    artist_lst.append(spotify_dict[song][0])
-    p_list.append(spotify_dict[song][1])
-    streams_lst.append(spotify_dict[song][2])
-for i in range(len(song_title)):
-    if count > 24:
-        break 
-    if cur.execute('SELECT title FROM SpotifyTop200 WHERE title = ? AND artist = ? AND position = ? AND streams = ?', (song_title[i], artist_lst[i], p_list[i], streams_lst[i])).fetchone() == None:
-        cur.execute('INSERT INTO SpotifyTop200 (title, artist, position, streams) VALUES (?, ?, ?, ?)', (song_title[i], artist_lst[i], p_list[i], streams_lst[i]))
-        count += 1
-conn.commit()
-
 # Loop through songs in Billboard database and create dictionary of the Spotify songs that are also in this database
 dir = os.path.dirname(__file__) + os.sep
 conn = sqlite3.connect(dir + 'Billboard.db')
