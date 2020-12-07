@@ -25,8 +25,7 @@ def getSongInfo(cur):
 
 #creating a new table to write into and store the information we gather from the API
 def makeTable(cur):
-    cur.execute('''DROP TABLE IF EXISTS Deezer''')
-    cur.execute('''CREATE TABLE Deezer (title TEXT, genres TEXT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS Deezer (title TEXT, genres TEXT)''')
 
 def makeRequest(url):
     reqs = requests.get(url)
