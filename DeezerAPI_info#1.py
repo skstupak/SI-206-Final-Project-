@@ -46,7 +46,6 @@ def getRequest(cur):
         url = "https://api.deezer.com/search?q=track:\"{}\" artists:\"{}\"".format(row[0], row[1])
         trackData = makeRequest(url)
         if len(trackData['data']) == 0 or trackData == None:
-            print (row)
             continue
             
         best_match = trackData['data'][0]
